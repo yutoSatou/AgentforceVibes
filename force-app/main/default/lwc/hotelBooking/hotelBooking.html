@@ -1,0 +1,138 @@
+<!--
+  @description       : Hotel Booking Component for Community Site
+  @author            : Coder
+  @group             : 
+  @last modified on  : 04-24-2025
+  @last modified by  : Coder
+-->
+<template>
+    <div class="hotel-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hotel-name">Grand Luxe Hotel</h1>
+                <p class="hotel-tagline">Experience Luxury Like Never Before</p>
+                <div class="hero-buttons">
+                    <button class="slds-button slds-button_brand" onclick={handleBookNow}>
+                        Book Now
+                    </button>
+                    <button class="slds-button slds-button_neutral" onclick={handleViewRooms}>
+                        View Rooms
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Section -->
+        <div class="ai-assistant-section">
+            <div class="ai-assistant-card">
+                <div class="ai-assistant-header">
+                    <lightning-icon icon-name="standard:bot" size="medium" class="ai-icon"></lightning-icon>
+                    <h2>Meet Roomie</h2>
+                </div>
+                <p class="ai-description">Your 24/7 AI Concierge</p>
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <lightning-icon icon-name="utility:check" size="x-small" class="feature-icon"></lightning-icon>
+                        <span>Instant Room Service</span>
+                    </div>
+                    <div class="ai-feature">
+                        <lightning-icon icon-name="utility:check" size="x-small" class="feature-icon"></lightning-icon>
+                        <span>Smart Room Controls</span>
+                    </div>
+                    <div class="ai-feature">
+                        <lightning-icon icon-name="utility:check" size="x-small" class="feature-icon"></lightning-icon>
+                        <span>Personalized Recommendations</span>
+                    </div>
+                </div>
+                <button class="slds-button slds-button_brand ai-chat-button" onclick={handleChatWithRoomie}>
+                    Chat with Roomie
+                </button>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <div class="services-section">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <lightning-icon icon-name="standard:room" size="medium" class="service-icon"></lightning-icon>
+                    <h3>Luxury Rooms</h3>
+                    <p>Experience comfort in our premium rooms with stunning views</p>
+                </div>
+                <div class="service-card">
+                    <lightning-icon icon-name="standard:food_and_beverage" size="medium" class="service-icon"></lightning-icon>
+                    <h3>Fine Dining</h3>
+                    <p>Indulge in exquisite cuisine at our award-winning restaurants</p>
+                </div>
+                <div class="service-card">
+                    <lightning-icon icon-name="standard:service_appointment" size="medium" class="service-icon"></lightning-icon>
+                    <h3>Room Service</h3>
+                    <p>24/7 room service at your fingertips</p>
+                </div>
+                <div class="service-card">
+                    <lightning-icon icon-name="standard:wellbeing" size="medium" class="service-icon"></lightning-icon>
+                    <h3>Spa & Wellness</h3>
+                    <p>Rejuvenate your body and mind at our luxury spa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Form Section -->
+        <div class="booking-section">
+            <div class="booking-form-container">
+                <h2 class="section-title">Book Your Stay</h2>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <lightning-input type="date" label="Check-in Date" name="checkIn"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <lightning-input type="date" label="Check-out Date" name="checkOut"></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <lightning-combobox
+                            label="Room Type"
+                            options={roomTypes}
+                            value={selectedRoomType}
+                            onchange={handleRoomTypeChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <lightning-combobox
+                            label="Guests"
+                            options={guestOptions}
+                            value={selectedGuests}
+                            onchange={handleGuestsChange}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+                <div class="booking-actions">
+                    <button class="slds-button slds-button_brand" onclick={handleCheckAvailability}>
+                        Check Availability
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Offers Section -->
+        <div class="offers-section">
+            <h2 class="section-title">Special Offers</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-content">
+                        <h3>Weekend Getaway</h3>
+                        <p>Book 2 nights, get 1 night free!</p>
+                        <button class="slds-button slds-button_neutral">Learn More</button>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-content">
+                        <h3>Honeymoon Package</h3>
+                        <p>Special rates for newlyweds</p>
+                        <button class="slds-button slds-button_neutral">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

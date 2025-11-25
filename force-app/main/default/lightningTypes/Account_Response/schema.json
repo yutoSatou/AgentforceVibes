@@ -1,0 +1,5 @@
+{
+  "title" : "Account Response",
+  "description" : "",
+  "lightning:type" : "@apexClassType/c__AccountResults"
+}

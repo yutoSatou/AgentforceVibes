@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="取引先検索フィルター">
+        <div class="slds-p-horizontal_medium">
+            <!-- 取引先名（部分一致） -->
+            <lightning-input
+                label="取引先名（部分一致）"
+                name="accountNameLike"
+                value={accountNameLike}
+                type="text"
+                onchange={handleInputChange}
+                read-only={readOnly}>
+            </lightning-input>
+
+            <!-- 最大取得件数 -->
+            <lightning-input
+                label="最大取得件数（1～2000）"
+                name="maxSize"
+                value={maxSize}
+                type="number"
+                min="1"
+                max="2000"
+                step="1"
+                onchange={handleInputChange}
+                read-only={readOnly}>
+            </lightning-input>
+        </div>
+    </lightning-card>
+</template>

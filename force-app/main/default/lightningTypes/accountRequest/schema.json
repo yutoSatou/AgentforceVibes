@@ -1,0 +1,5 @@
+{
+  "title" : "accountRequest",
+  "description" : "",
+  "lightning:type" : "@apexClassType/c__AccountRequestFilter"
+}

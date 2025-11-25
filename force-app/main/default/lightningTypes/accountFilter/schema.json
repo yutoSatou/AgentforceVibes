@@ -1,0 +1,5 @@
+{
+  "title" : "Account Filter",
+  "description" : "Filter inputs for Account search (Account Name and Max Results).",
+  "lightning:type" : "@apexClassType/c__AccountSearchAgent"
+}

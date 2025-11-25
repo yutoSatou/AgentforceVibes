@@ -1,0 +1,133 @@
+<template>
+  <lightning-card
+    title="取引先責任者の一括登録"
+    icon-name="standard:contact_list"
+  >
+    <div class="slds-p-around_medium">
+      <template if:true={isSaving}>
+        <lightning-spinner
+          alternative-text="Saving"
+          size="small"
+        ></lightning-spinner>
+      </template>
+
+      <div class="slds-m-bottom_small slds-grid slds-gutters">
+        <div
+          class="slds-col slds-size_1-of-1 slds-text-color_error"
+          if:true={errorMessage}
+        >
+          {errorMessage}
+        </div>
+      </div>
+
+      <div class="slds-scrollable_x">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+          <thead>
+            <tr>
+              <th scope="col" style="min-width: 120px">姓(必須)</th>
+              <th scope="col" style="min-width: 120px">名</th>
+              <th scope="col" style="min-width: 220px">メール</th>
+              <th scope="col" style="min-width: 160px">役職</th>
+              <th scope="col" style="min-width: 160px">電話</th>
+              <th scope="col" style="min-width: 180px">部署</th>
+              <th scope="col" style="min-width: 80px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template for:each={rows} for:item="row" for:index="index">
+              <tr key={row.key}>
+                <td>
+                  <lightning-input
+                    data-field="LastName"
+                    data-index={index}
+                    value={row.LastName}
+                    variant="label-hidden"
+                    type="text"
+                    required
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td>
+                  <lightning-input
+                    data-field="FirstName"
+                    data-index={index}
+                    value={row.FirstName}
+                    variant="label-hidden"
+                    type="text"
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td>
+                  <lightning-input
+                    data-field="Email"
+                    data-index={index}
+                    value={row.Email}
+                    variant="label-hidden"
+                    type="email"
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td>
+                  <lightning-input
+                    data-field="Title"
+                    data-index={index}
+                    value={row.Title}
+                    variant="label-hidden"
+                    type="text"
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td>
+                  <lightning-input
+                    data-field="Phone"
+                    data-index={index}
+                    value={row.Phone}
+                    variant="label-hidden"
+                    type="tel"
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td>
+                  <lightning-input
+                    data-field="Department"
+                    data-index={index}
+                    value={row.Department}
+                    variant="label-hidden"
+                    type="text"
+                    onchange={handleInputChange}
+                  ></lightning-input>
+                </td>
+                <td class="slds-text-align_center">
+                  <lightning-button-icon
+                    icon-name="utility:delete"
+                    alternative-text="削除"
+                    title="削除"
+                    onclick={handleDeleteRow}
+                    data-index={index}
+                  ></lightning-button-icon>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="slds-m-top_small slds-grid slds-gutters">
+        <div class="slds-col">
+          <lightning-button
+            label="行を追加"
+            onclick={handleAddRow}
+            icon-name="utility:add"
+            class="slds-m-right_small"
+          ></lightning-button>
+          <lightning-button
+            variant="brand"
+            label="保存"
+            onclick={handleSave}
+            disabled={isSaving}
+          ></lightning-button>
+        </div>
+      </div>
+    </div>
+  </lightning-card>
+</template>

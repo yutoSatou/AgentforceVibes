@@ -1,0 +1,46 @@
+<template>
+    <div class="slds-card_container">
+        <h2 class="account-title">Account Details</h2>
+
+        <!-- Account Cards List -->
+        <div class="account-grid">
+            <template for:each={accounts} for:item="account">
+                <article key={account.Id} class="slds-card">
+                    <!-- Account Header -->
+                    <header class="account-header">
+                        <h3 class="account-name">{account.accountName}</h3>
+                        <p class="account-number">Account Number: {account.accountNumber}</p>
+                    </header>
+
+                    <!-- Account Body -->
+                    <div class="account-body">
+                        <div class="account-detail-row">
+                            <span class="account-label">Type:</span>
+                            <span class="account-value">{account.type}</span>
+                        </div>
+                        <div class="account-detail-row">
+                            <span class="account-label">Industry:</span>
+                            <span class="account-value">{account.industry}</span>
+                        </div>
+                        <div class="account-detail-row">
+                            <span class="account-label">Rating:</span>
+                            <span class="account-value">{account.rating}</span>
+                        </div>
+                        <div class="account-detail-row">
+                            <span class="account-label">Phone:</span>
+                            <span class="account-value">{account.phone}</span>
+                        </div>
+                        <div class="account-detail-row">
+                            <span class="account-label">Website:</span>
+                            <span class="account-value">{account.website}</span>
+                        </div>
+                        <div class="account-detail-row">
+                            <span class="account-label">Owner ID:</span>
+                            <span class="account-value">{account.ownerId}</span>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </div>
+    </div>
+</template>
