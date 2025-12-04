@@ -1,4 +1,55 @@
 public with sharing class AccountBulkContactsController {
+  // Security helper: check user can create Contact records
+  private static Boolean userHasCreateOnContact() {
+    return Schema.sObjectType.Contact.isCreateable();
+  }
+
+  // Validate top-level inputs; return a Result on error, or null if valid
+  private static Result validateInputs(Id accountId, List<ContactInput> contacts) {
+    if (accountId == null) {
+      return new Result(false, 'AccountId is required.', null);
+    }
+    if (contacts == null || contacts.isEmpty()) {
+      return new Result(false, 'At least one contact row is required.', null);
+    }
+    if (contacts.size() > 50) {
+      return new Result(false, 'You can create up to 50 contacts at once.', null);
+    }
+    return null;
+  }
+
+  // Build Contact sObjects from inputs; throws with row context for invalid rows
+  private static List<Contact> buildContacts(Id accountId, List<ContactInput> contacts) {
+    List<Contact> toInsert = new List<Contact>();
+    Integer rowNum = 0;
+    for (ContactInput ci : contacts) {
+      rowNum++;
+      if (ci == null) continue;
+      if (String.isBlank(ci.LastName)) {
+        // Surface validation error with row number
+        throw new AuraHandledException('Row ' + rowNum + ': LastName is required.');
+      }
+      Contact c = new Contact();
+      c.AccountId = accountId;
+      c.FirstName = ci.FirstName;
+      c.LastName = ci.LastName;
+      c.Email = ci.Email;
+      c.Title = ci.Title;
+      c.Phone = ci.Phone;
+      c.Department = ci.Department;
+      toInsert.add(c);
+    }
+    return toInsert;
+  }
+
+  // Collect created Ids
+  private static List<Id> collectIds(List<Contact> records) {
+    List<Id> ids = new List<Id>();
+    for (Contact c : records) {
+      ids.add(c.Id);
+    }
+    return ids;
+  }
   public class ContactInput {
     @AuraEnabled
     public String FirstName;
@@ -44,56 +95,30 @@ public with sharing class AccountBulkContactsController {
       }
     }
 
-    if (accountId == null) {
-      return new Result(false, 'AccountId is required.', null);
-    }
-    if (contacts == null || contacts.isEmpty()) {
-      return new Result(false, 'At least one contact row is required.', null);
-    }
-    if (contacts.size() > 50) {
-      return new Result(
-        false,
-        'You can create up to 50 contacts at once.',
-        null
-      );
+    // Input validation (reduces complexity in main method)
+    Result inputError = validateInputs(accountId, contacts);
+    if (inputError != null) {
+      return inputError;
     }
 
-    List<Contact> toInsert = new List<Contact>();
-    Integer rowNum = 0;
-    for (ContactInput ci : contacts) {
-      System.debug('Processing contact input: ' + ci);
-      rowNum++;
-      if (ci == null)
-        continue;
-      if (String.isBlank(ci.LastName)) {
-        return new Result(
-          false,
-          'Row ' + rowNum + ': LastName is required.',
-          null
-        );
-      }
-      Contact c = new Contact();
-      c.AccountId = accountId;
-      c.FirstName = ci.FirstName;
-      c.LastName = ci.LastName;
-      c.Email = ci.Email;
-      c.Title = ci.Title;
-      c.Phone = ci.Phone;
-      c.Department = ci.Department;
-      toInsert.add(c);
+    // CRUD/FLS guard before DML to address Security-ApexCRUDViolation
+    if (!userHasCreateOnContact()) {
+      return new Result(false, 'Insufficient permissions to create Contact records.', null);
     }
 
+    // Build records from inputs; catch row-level validation surfaced by buildContacts
+    List<Contact> toInsert;
+    try {
+      toInsert = buildContacts(accountId, contacts);
+    } catch (AuraHandledException vex) {
+      return new Result(false, vex.getMessage(), null);
+    }
+
+    // Perform DML
     try {
       insert toInsert;
-      List<Id> ids = new List<Id>();
-      for (Contact c : toInsert) {
-        ids.add(c.Id);
-      }
-      return new Result(
-        true,
-        'Created ' + toInsert.size() + ' contact(s).',
-        ids
-      );
+      List<Id> ids = collectIds(toInsert);
+      return new Result(true, 'Created ' + toInsert.size() + ' contact(s).', ids);
     } catch (DmlException e) {
       return new Result(false, e.getDmlMessage(0), null);
     } catch (Exception e) {
