@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <description>承認されたステップの状況の値が保存されます。この定数の値は [承認] である必要があります。</description>
+        <name>Approved</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Approve</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>承認申請が承認されたか却下されたかが判断されます。申請が承認されたときに実行する最終アクションがある場合は、1 つ以上のバックグラウンドステップを「承認済み申請を処理」フェーズに追加します。申請が却下されたときに実行する最終アクションがある場合は、1 つ以上のバックグラウンドステップを「却下済み申請を処理」フェーズに追加します。最後に、この説明を更新してこの決定での実行内容を反映させます。</description>
+        <name>Is_Submission_Approved_or_Rejected</name>
+        <label>申請の承認または却下の状況</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Process_Rejected_Submission</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>却下 (デフォルト)</defaultConnectorLabel>
+        <rules>
+            <name>Is_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Approval_Step_1_of_Approval_Stage_1.Outputs.approvalDecision</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Approved</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Process_Approved_Submission</targetReference>
+            </connector>
+            <label>承認</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>test2 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>test2</label>
+    <orchestratedStages>
+        <description>承認申請に異なる承認者が同時にレビュー可能な承認作業項目がある場合は、このフェーズに承認ステップをさらに追加します。他の処理が必要な場合は、バックグラウンドステップを追加します。最後に、表示ラベル、API 参照名、説明を更新してこのフェーズでの実行内容を反映させます。</description>
+        <name>Approval_Stage_1</name>
+        <label>承認フェーズ 1</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Submission_Approved_or_Rejected</targetReference>
+        </connector>
+        <exitConditionLogic>and</exitConditionLogic>
+        <stageSteps>
+            <description>ステップを完了するには承認者を選択します。この承認ステップで呼び出すカスタム画面フローがある場合は、[アクション] で [承認ワークフロー: 承認申請を評価] を削除し、カスタム画面フローを選択します。最後に、表示ラベル、API 参照名、説明を更新してこのステップでの実行内容を反映させます。</description>
+            <name>Approval_Step_1_of_Approval_Stage_1</name>
+            <actionName>standard_approvals__EvaluateApproval</actionName>
+            <actionType>stepApproval</actionType>
+            <assignees>
+                <assignee>
+                    <stringValue>yuto.satou+test1205@kitalive.co.jp</stringValue>
+                </assignee>
+                <assigneeType>User</assigneeType>
+            </assignees>
+            <canAssigneeEdit>true</canAssigneeEdit>
+            <debugSimulateStep>false</debugSimulateStep>
+            <entryConditionLogic>and</entryConditionLogic>
+            <exitConditionLogic>and</exitConditionLogic>
+            <inputParameters>
+                <name>ActionInput__RecordId</name>
+                <value>
+                    <elementReference>recordId</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>ActionInput__CustomEmailSubject</name>
+            </inputParameters>
+            <inputParameters>
+                <name>ActionInput__CustomEmailBody</name>
+            </inputParameters>
+            <label>承認ステップ 1/承認フェーズ 1</label>
+            <outputConfigParams>
+                <name>approvalComments</name>
+                <value xsi:nil="true"/>
+            </outputConfigParams>
+            <outputConfigParams>
+                <name>approvalDecision</name>
+                <value xsi:nil="true"/>
+            </outputConfigParams>
+            <requiresAsyncProcessing>false</requiresAsyncProcessing>
+            <runAsUser>false</runAsUser>
+            <shouldLock>true</shouldLock>
+            <stepSubtype>ApprovalStep</stepSubtype>
+        </stageSteps>
+    </orchestratedStages>
+    <orchestratedStages>
+        <description>承認申請が承認されたときに実行する最終アクションが含まれます。[承認申請状況メール通知を申請者に送信] が有効の場合、承認を申請した人には自動的に申請が承認されたことが通知されます。この申請が承認されたときに実行するアクションがある場合は、1 つ以上のバックグラウンドステップをこのフェーズに追加します。最後に、この説明を更新してこのフェーズでの実行内容を反映させます。</description>
+        <name>Process_Approved_Submission</name>
+        <label>承認済み申請を処理</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <exitConditionLogic>and</exitConditionLogic>
+    </orchestratedStages>
+    <orchestratedStages>
+        <description>承認申請が却下されたときに実行する最終アクションが含まれます。[承認申請状況メール通知を申請者に送信] が有効の場合、承認を申請した人には自動的に申請が却下されたことが通知されます。この申請が却下されたときに実行するアクションがある場合は、1 つ以上のバックグラウンドステップをこのフェーズに追加します。最後に、この説明を更新してこのフェーズでの実行内容を反映させます。</description>
+        <name>Process_Rejected_Submission</name>
+        <label>却下済み申請を処理</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <exitConditionLogic>and</exitConditionLogic>
+    </orchestratedStages>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>ApprovalWorkflow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Approval_Stage_1</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>承認するレコードの ID を格納し、フロー承認プロセスに渡されます。この入力変数は必須です。</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>承認に関するコメントを格納し、フロー承認プロセスに渡されます。この入力変数は必須です。</description>
+        <name>submissionComments</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>承認を申請するユーザーの ID を格納し、フロー承認プロセスに渡されます。この入力変数は必須です。</description>
+        <name>submitter</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Record-triggered flow that normalizes Account Name by replacing "(株)" with "株式会社" on create/update.</description>
+</FlowDefinition>
