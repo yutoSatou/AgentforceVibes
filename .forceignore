@@ -10,3 +10,5 @@ package.xml
 
 # LWC Jest
 **/__tests__/**
+
+force-app/main/default/layouts/Customer__c-Customer Layout.layout-meta.xml

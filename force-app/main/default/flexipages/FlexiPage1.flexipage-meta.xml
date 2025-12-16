@@ -29,12 +29,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>accountBulkContacts</componentName>
-                <identifier>c_accountBulkContacts</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>
@@ -162,38 +156,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>generativePromptTemplate</name>
-                    <value>CaseSummary</value>
-                </fieldInstanceProperties>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CaseSummary__c</fieldItem>
-                <identifier>RecordCaseSummary_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-860df28d-0036-4099-a388-aa7a16424d6d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-860df28d-0036-4099-a388-aa7a16424d6d</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-bf5b74d3-c7a6-487f-91d6-e2dae360de60</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentName>cooper:companyInsightTeaserCard</componentName>
                 <identifier>cooper_companyInsightTeaserCard</identifier>
@@ -296,24 +258,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-bf5b74d3-c7a6-487f-91d6-e2dae360de60</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>ケースの説明を要約</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
